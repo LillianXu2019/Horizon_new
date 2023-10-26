@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Horizon Task</title>
+    <script src="lib/vendors/jspsych-6.1.0/jspsych.js"></script>
+    <script src="lib/vendors/jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+    <script src="lib/vendors/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="lib/vendors/jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+    <script src="lib/vendors/jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+    <link href="lib/vendors/jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
+
+    <!-- jQuery required for Pavlovia and Horizon plugins -->
+    <script src="lib/vendors/jquery-2.2.0.min.js"></script>
+
+    <!-- D3js required for Horizon plugin -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <!--script type="text/javascript" src="lib/jspsych-pavlovia-3.2.5.js"></script-->
+    <script type="text/javascript" src="jspsych-pavlovia-2020.3.js"></script> <!-- add the complete callback plugin -->
+    <script type="text/javascript" src="jspsych-horizon.js"></script>
+    <link href="jspsych-horizon.css" rel="stylesheet" type="text/css">
+
+    <!-- CHANGE: Loading the external main experiment script -->
+	<script src="horizon_main.js"></script> 
+
+</head>
+<body>
+	<!-- COPY PASTE TO QUALTRICS FROM HERE -->
+
+      <!-- Change 3: Adding extra scripts for Qualtrics -->  
+      <link href="https://LillianXu2019.github.io/Horizon-new/jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+      <div>
+        <span style="font-size: 24px;">
+          <br><br>
+          If you are seeing this message for <span style="color: rgb(255, 0, 0);"><b>more than 5 minutes</b></span>,<br>
+          please screen-capture this screen and send the image to us.
+          <br><br>
+          <span style="font-size: 28px;">We are very sorry for the inconvenience.</span>
+        </span>
+      </div>
+
+	<!-- Change 2: Adding `display_stage` CSS and Div -->
+      <style>
+        #display_stage_background {
+          width: 100vw;
+          background-color: white;
+          z-index: -1;
+        }
+
+        #display_stage {
+          position: fixed;
+          left: 1vw;
+          top: 1vh;
+          height: 98vh;
+          width: 98vw;
+          background-color: white;
+          box-shadow: 1px 1px 1px #999;
+          border-radius: 15px;
+          z-index: 0;
+          overflow-y: hidden;
+          overflow-x: hidden;
+        }
+      </style>
+      <!-- COPY PASTE TO QUALTRICS UP TO HERE -->
+
+      <div id='display_stage_background'></div>
+      <div id='display_stage'></div>
+</body>
+
+
+<script>
+
+    /* init connection with pavlovia.org */
+    let pavlovia_init = {
+      type: "pavlovia",
+      command: "init"
+    };
+    if(runat_pavlovia){
+        timeline.push(pavlovia_init);
+    }
+
+
+    /* finish connection with pavlovia.org */
+    var pavlovia_finish = {
+      type: "pavlovia",
+      command: "finish",
+        dataFilter: function(data) {
+          // Printing the data received from jsPsych.data.get().csv(); a CSV data structure
+          console.log(data);
+          // You can also access the data directly, for instance getting it as JSON
+          console.log(jsPsych.data.get().json());
+          // Return whatever data you'd like to store
+          return data;
+      },
+      // Thomas Pronk; call this function when we're done with the experiment and data reception has been confirmed by Pavlovia
+      completedCallback: function() {
+        alert('data successfully submitted!');
+      }
+      };
+
+    if (runat_pavlovia){
+        timeline.push(pavlovia_finish);
+    }
+
+    // Extract parameter from the url by parameter name
+    // Use Regex to match the param.
+    function getUrlParam(name) {
+        name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+        var regexS = "[\\?&]"+name+"=([^&#]*)";
+        var regex = new RegExp(regexS);
+        var results = regex.exec(window.location.href);
+        return results == null ? null : results[1];
+    }
+
+    // finish the study
+    jsPsych.init({
+        timeline: timeline,
+        /* Change 1: Using `display_element` */
+		display_element: 'display_stage',
+		on_finish: function () {
+		    jsPsych.data.displayData();
+		}
+        preload_images:preload_images,
+        on_finish: function() {
+            // if(runat_pavlovia) {
+            //     if (order_id == 1) { // if order 1, go to digt span
+            //         window.location.replace('https://run.pavlovia.org/LillianXu/digit_span-dev?orderID=' + order_id + '&participantID=' + getUrlParam('participantID'));
+            //     } else { // if order 2, go to conflict_pss Q
+            //         window.location.replace('https://uwmadison.co1.qualtrics.com/jfe/form/SV_a9m6W4d0lOen834?orderID=' + order_id + '&participantID=' + getUrlParam('participantID'));
+            //     }
+            // }
+        }
+    });
+
+</script>
+</html>
