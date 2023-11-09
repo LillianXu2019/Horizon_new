@@ -217,31 +217,32 @@ var question1 = {
     data: {test_part: 'practice-question'},
     show_clickable_nav: true
     }
-    var question1_feedback = {
-        type: "image-keyboard-response",
-        stimulus: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let stimulus = '';
-                    if(!correct){
-                        stimulus = '';
-                        } else {
-                        stimulus = repo_site +'img/right_answer.gif';
-                        }
-                    return stimulus},
-        prompt: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let feedback = '';
-                    if(!correct){
-                            feedback = '<p style="color: red; font-size: 30px;">Error! The orange box gave you <strong>40</strong> in the first box, so the rest of the numbers will be around <strong>40</strong>.</p>';
-                        } else {
-                            feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
-                        }
-                    return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
-                //response_ends_trial: true,                            
-                data: {test_part: 'practice-feedback'}
-            };
+
+var question1_feedback = {
+    type: "image-keyboard-response",
+    stimulus: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let stimulus = '';
+                if(!correct){
+                    stimulus = '';
+                    } else {
+                    stimulus = repo_site +'img/right_answer.gif';
+                    }
+                return stimulus},
+    prompt: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let feedback = '';
+                if(!correct){
+                        feedback = '<p style="color: red; font-size: 30px;">Error! The orange box gave you <strong>40</strong> in the first box, so the rest of the numbers will be around <strong>40</strong>.</p>';
+                    } else {
+                        feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
+                    }
+                return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
+            //response_ends_trial: true,                            
+            data: {test_part: 'practice-feedback'}
+        };
 
 var if_node_1 = {
     timeline: [question1, question1_feedback],
@@ -253,11 +254,9 @@ var if_node_1 = {
             return false;
         } else {
             return true;
-        }
-    }
-    }
+        }}}
 
-        var question2 = {
+var question2 = {
     type: 'image-keyboard-response',
     stimulus: repo_site + 'img/inst_q2.png',
     choices: ['a', 'b', 'c'],
@@ -268,32 +267,32 @@ var if_node_1 = {
     data: {test_part: 'practice-question'}
     };
 
-    var question2_feedback = {
-        type: "image-keyboard-response",
-        stimulus: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let stimulus = '';
-                    if(!correct){
-                        stimulus = '';
-                        } else {
-                        stimulus = repo_site + 'img/right_answer.gif';
-                        }
-                    return stimulus},
-        prompt: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let feedback = '';
-                    if(!correct){
-                            feedback = '<p style="color: red; font-size: 30px;">Error! The green square is on both sides, so you can press either arrow key.</p>';
-                        } else {
-                            feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
-                        }
-                    return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
-                data: {test_part: 'practice-feedback'}
-            };
+var question2_feedback = {
+    type: "image-keyboard-response",
+    stimulus: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let stimulus = '';
+                if(!correct){
+                    stimulus = '';
+                    } else {
+                    stimulus = repo_site + 'img/right_answer.gif';
+                    }
+                return stimulus},
+    prompt: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let feedback = '';
+                if(!correct){
+                        feedback = '<p style="color: red; font-size: 30px;">Error! The green square is on both sides, so you can press either arrow key.</p>';
+                    } else {
+                        feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
+                    }
+                return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
+            data: {test_part: 'practice-feedback'}
+        };
 
-               var if_node_2 = {
+var if_node_2 = {
     timeline: [question2, question2_feedback],
     conditional_function: function(){
         // get the data from the previous trial,
@@ -307,7 +306,7 @@ var if_node_1 = {
     }
     }
 
-    var question3 = {
+var question3 = {
     type: 'image-keyboard-response',
     stimulus: repo_site + 'img/inst_q3.png',
     choices: ['a', 'b'],
@@ -318,32 +317,32 @@ var if_node_1 = {
     data: {test_part: 'practice-question'}
     };
 
-    var question3_feedback = {
-        type: "image-keyboard-response",
-        stimulus: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let stimulus = '';
-                    if(!correct){
-                        stimulus = '';
-                        } else {
-                        stimulus = repo_site + 'img/right_answer.gif';
-                        }
-                    return stimulus},
-        prompt: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let feedback = '';
-                    if(!correct){
-                            feedback = '<p style="color: red; font-size: 30px;">Error! The orange box gave you <strong>40</strong> in the first box, so the rest of the numbers will be around <strong>40</strong>.</p>';
-                        } else {
-                            feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
-                        }
-                    return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
-                data: {test_part: 'practice-feedback'}
-            };
+var question3_feedback = {
+    type: "image-keyboard-response",
+    stimulus: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let stimulus = '';
+                if(!correct){
+                    stimulus = '';
+                    } else {
+                    stimulus = repo_site + 'img/right_answer.gif';
+                    }
+                return stimulus},
+    prompt: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let feedback = '';
+                if(!correct){
+                        feedback = '<p style="color: red; font-size: 30px;">Error! The orange box gave you <strong>40</strong> in the first box, so the rest of the numbers will be around <strong>40</strong>.</p>';
+                    } else {
+                        feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
+                    }
+                return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
+            data: {test_part: 'practice-feedback'}
+        };
 
-            var if_node_3 = {
+var if_node_3 = {
     timeline: [question3, question3_feedback],
     conditional_function: function(){
         // get the data from the previous trial,
@@ -357,7 +356,7 @@ var if_node_1 = {
     }
     }
 
-    var question4 = {
+var question4 = {
     type: 'image-keyboard-response',
     stimulus: repo_site + 'img/inst_q4.png',
     choices: [37, 39],
@@ -368,32 +367,32 @@ var if_node_1 = {
     data: {test_part: 'practice-question'}
     };
 
-    var question4_feedback = {
-        type: "image-keyboard-response",
-        stimulus: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let stimulus = '';
-                    if(!correct){
-                        stimulus = '';
-                        } else {
-                        stimulus = repo_site + 'img/right_answer.gif';
-                        }
-                    return stimulus},
-        prompt: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let feedback = '';
-                    if(!correct){
-                            feedback = '<p style="color: red; font-size: 30px;">Error! The right boxes gave you more points on average, so you should press the right arrow key to select them.</p>';
-                        } else {
-                            feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
-                        }
-                    return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
-                data: {test_part: 'practice-feedback'}
-            };
+var question4_feedback = {
+    type: "image-keyboard-response",
+    stimulus: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let stimulus = '';
+                if(!correct){
+                    stimulus = '';
+                    } else {
+                    stimulus = repo_site + 'img/right_answer.gif';
+                    }
+                return stimulus},
+    prompt: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let feedback = '';
+                if(!correct){
+                        feedback = '<p style="color: red; font-size: 30px;">Error! The right boxes gave you more points on average, so you should press the right arrow key to select them.</p>';
+                    } else {
+                        feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
+                    }
+                return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
+            data: {test_part: 'practice-feedback'}
+        };
 
-            var if_node_4 = {
+var if_node_4 = {
     timeline: [question4, question4_feedback],
     conditional_function: function(){
         // get the data from the previous trial,
@@ -407,7 +406,7 @@ var if_node_1 = {
     }
     }
 
-    var question5 = {
+var question5 = {
     type: 'image-keyboard-response',
     stimulus: repo_site + 'img/inst_q5.png',
     choices: [37, 39],
@@ -418,30 +417,30 @@ var if_node_1 = {
     data: {test_part: 'practice-question'}
     };
 
-    var question5_feedback = {
-        type: "image-keyboard-response",
-        stimulus: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let stimulus = '';
-                    if(!correct){
-                        stimulus = '';
-                        } else {
-                        stimulus = repo_site + 'img/right_answer.gif';
-                        }
-                    return stimulus},
-        prompt: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let feedback = '';
-                    if(!correct){
-                            feedback = '<p style="color: red; font-size: 30px;">Error! The right boxes gave you more points on average, so you should press the right arrow key to select them.</p>';
-                        } else {
-                            feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
-                        }
-                    return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
-                data: {test_part: 'practice-feedback'}
-            };
+var question5_feedback = {
+    type: "image-keyboard-response",
+    stimulus: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let stimulus = '';
+                if(!correct){
+                    stimulus = '';
+                    } else {
+                    stimulus = repo_site + 'img/right_answer.gif';
+                    }
+                return stimulus},
+    prompt: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let feedback = '';
+                if(!correct){
+                        feedback = '<p style="color: red; font-size: 30px;">Error! The right boxes gave you more points on average, so you should press the right arrow key to select them.</p>';
+                    } else {
+                        feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
+                    }
+                return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
+            data: {test_part: 'practice-feedback'}
+        };
 
 var if_node_5 = {
     timeline: [question5, question5_feedback],
@@ -457,7 +456,7 @@ var if_node_5 = {
     }
     }
 
-    var question6 = {
+var question6 = {
     type: 'image-keyboard-response',
     stimulus: repo_site + 'img/inst_q6.png',
     choices: [37, 39],
@@ -468,30 +467,30 @@ var if_node_5 = {
     data: {test_part: 'practice-question'}
     };
 
-    var question6_feedback = {
-        type: "image-keyboard-response",
-        stimulus: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let stimulus = '';
-                    if(!correct){
-                        stimulus = '';
-                        } else {
-                        stimulus = repo_site + 'img/right_answer.gif';
-                        }
-                    return stimulus},
-        prompt: function(){
-                    let d = jsPsych.data.get().last(1).values()[0];
-                    let correct = d.correct;
-                    let feedback = '';
-                    if(!correct){
-                            feedback = '<p style="color: red; font-size: 30px;">Error! The left boxes gave you more points on average, so you should press the left arrow key to select them.</p>';
-                        } else {
-                            feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
-                        }
-                    return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
-                data: {test_part: 'practice-feedback'}
-            };
+var question6_feedback = {
+    type: "image-keyboard-response",
+    stimulus: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let stimulus = '';
+                if(!correct){
+                    stimulus = '';
+                    } else {
+                    stimulus = repo_site + 'img/right_answer.gif';
+                    }
+                return stimulus},
+    prompt: function(){
+                let d = jsPsych.data.get().last(1).values()[0];
+                let correct = d.correct;
+                let feedback = '';
+                if(!correct){
+                        feedback = '<p style="color: red; font-size: 30px;">Error! The left boxes gave you more points on average, so you should press the left arrow key to select them.</p>';
+                    } else {
+                        feedback = "<p style='color: green; font-size: 30px;'>Correct!</p>";
+                    }
+                return "<p>" + feedback + "</p><p style = 'font-size: 30px'>Press any key for the next step.</p>"},
+            data: {test_part: 'practice-feedback'}
+        };
 
 var if_node_6 = {
     timeline: [question6, question6_feedback],
@@ -546,7 +545,14 @@ var if_node_6 = {
 
         timeline.push(welcome);
         timeline.push(instruction_trials);
-        timeline.push(inst_left_key, inst_right_key, question1, question1_feedback, if_node_1, question2, question2_feedback, if_node_2, question3, question3_feedback, if_node_3, question4, question4_feedback, if_node_4, question5,question5_feedback, if_node_5, question6,question6_feedback, if_node_6);
+        timeline.push(
+            inst_left_key, inst_right_key, 
+            question1, question1_feedback, if_node_1, 
+            question2, question2_feedback, if_node_2, 
+            question3, question3_feedback, if_node_3, 
+            question4, question4_feedback, if_node_4, 
+            question5,question5_feedback, if_node_5, 
+            question6,question6_feedback, if_node_6);
         timeline.push(choose_to_replay_instructions, if_node);
         timeline.push(end_of_practice);
 
