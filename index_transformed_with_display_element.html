@@ -116,21 +116,13 @@
     // finish the study
     jsPsych.init({
         timeline: timeline,
-        /* Change 1: Using `display_element` */
 		display_element: 'display_stage',
+
 		on_finish: function () {
 		    jsPsych.data.displayData();
-		}
+		},
         preload_images:preload_images,
-        on_finish: function() {
-            // if(runat_pavlovia) {
-            //     if (order_id == 1) { // if order 1, go to digt span
-            //         window.location.replace('https://run.pavlovia.org/LillianXu/digit_span-dev?orderID=' + order_id + '&participantID=' + getUrlParam('participantID'));
-            //     } else { // if order 2, go to conflict_pss Q
-            //         window.location.replace('https://uwmadison.co1.qualtrics.com/jfe/form/SV_a9m6W4d0lOen834?orderID=' + order_id + '&participantID=' + getUrlParam('participantID'));
-            //     }
-            // }
-        }
+
     });
 
 </script>
