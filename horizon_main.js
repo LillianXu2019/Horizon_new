@@ -558,7 +558,14 @@ var if_node_6 = {
 
         timeline.push(welcome);
         timeline.push(instruction_trials);
-        timeline.push(inst_left_key, inst_right_key, question1, question1_feedback, if_node_1, question2, question2_feedback, if_node_2, question3, question3_feedback, if_node_3, question4, question4_feedback, if_node_4, question5,question5_feedback, if_node_5, question6,question6_feedback, if_node_6);
+        timeline.push(
+            inst_left_key, inst_right_key,
+            question1, question1_feedback, if_node_1,
+            question2, question2_feedback, if_node_2,
+            question3, question3_feedback, if_node_3,
+            question4, question4_feedback, if_node_4,
+            question5,question5_feedback, if_node_5,
+            question6,question6_feedback, if_node_6);
         timeline.push(choose_to_replay_instructions, if_node);
         timeline.push(end_of_practice);
 
