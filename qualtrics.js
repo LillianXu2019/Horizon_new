@@ -47,8 +47,8 @@ Qualtrics.SurveyEngine.addOnload(function () {
     var task_name = "horizon";
     var save_url = "https://experiment.childemotion.waisman.wisc.edu/save_data.php";
     // var subject_id = "${e://Field/participantID}";
-	var child_id = "${e://Field/child_id}";
-    var response_id = "${e://Field/response_id}";
+    var child_id = "${e://Field/child}";
+    var response_id = "${e://Field/response}";
     var data_dir = task_name;
     var file_name = task_name + '_' + child_id;
 
