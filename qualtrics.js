@@ -18,6 +18,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
         "https://d3js.org/d3.v6.min.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/jspsych.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-fullscreen.js",
+        jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-instructions.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js",
         jslib_url + "jspsych-horizon.js",
