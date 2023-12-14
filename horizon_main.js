@@ -555,7 +555,7 @@ var if_node_6 = {
     prompt: "<p style = 'font-size: 25px'>Great job! You've got a trophy!</p>" +
     "<p style = 'font-size: 25px'>Press any key to continue to the next part.</p>"
     }
-
+/*
         timeline.push(welcome);
         timeline.push(instruction_trials);
         timeline.push(
@@ -568,6 +568,7 @@ var if_node_6 = {
             question6,question6_feedback, if_node_6);
         timeline.push(choose_to_replay_instructions, if_node);
         timeline.push(end_of_practice);
+        */
 
     //the real game
     var score_feedback = {
@@ -593,7 +594,7 @@ var if_node_6 = {
 
     // Create blocks of 20 trials
     //// full_design = full_design.slice(0,20); //keep only the first block for test
-
+/*
     for(let j=0; j<full_design.length; j+=20){
         timeline.push({
             type: "html-keyboard-response",
@@ -610,6 +611,6 @@ var if_node_6 = {
 
         timeline.push(score_feedback);    // feedback slide
     };
-
+*/
     timeline.push(trophy);            // trophy slide
 
