@@ -2,14 +2,16 @@
 
 // define the site that hosts stimuli images
 // usually https://<your-github-username>.github.io/<your-experiment-name>/
-var repo_site = "https://LillianXu2019.github.io/Horizon_new/";
+var g = {};  // put everything in a namespace variable
 
-let runat_pavlovia = false; /* change it to true if run on pavlovia
+g.repo_site = "https://LillianXu2019.github.io/Horizon_new/";
+
+g.runat_pavlovia = false; /* change it to true if run on pavlovia
 
 /* preload images */
-var imageExt = repo_site + "img/"
+g.imageExt = g.repo_site + "img/"
 
-var images = [
+g.images = [
 "inst_key1.jpg",
 "inst_key2.jpg",
 "inst_q1.png",
@@ -25,27 +27,27 @@ var images = [
 "trophy2.jpeg"
 ]
 
-var preload_images=[];
+g.preload_images=[];
 
-for (var k = 0; k < images.length; k++) {
-    preload_images.push(imageExt+images[k]);
+for (var k = 0; k < g.images.length; k++) {
+    g.preload_images.push(g.imageExt+g.images[k]);
 };
 
 /* Enter subject id */
 //var subject_id = prompt("Subject ID", "test")
-var subject_id = jsPsych.data.getURLVariable('participantID')
-jsPsych.data.addProperties({subject: subject_id});
+g.subject_id = jsPsych.data.getURLVariable('participantID')
+jsPsych.data.addProperties({subject: g.subject_id});
 
 /* Enter order id */
 //var subject_id = prompt("Subject ID", "test")
-var order_id = jsPsych.data.getURLVariable('orderID')
-jsPsych.data.addProperties({order: order_id});
+g.order_id = jsPsych.data.getURLVariable('orderID')
+jsPsych.data.addProperties({order: g.order_id});
 
 // debug
 //console.log('debug: order_is:' + order_id);
 
     // enter full screen
-    var welcome = {
+    g.welcome = {
     type: "fullscreen",
     message: "Now you are entering the full screen mode.<br>",
     button_label: "Click here to proceed.",
@@ -54,59 +56,59 @@ jsPsych.data.addProperties({order: order_id});
 
     // generate trials for Horizon task
 
-    let randomNormal = d3.randomNormal();
+    g.randomNormal = d3.randomNormal();
 
     // task parameters
-    let factors = {
+    g.factors = {
         mu: [40, 60],
         delta_mu: [-30, -20, -12, -8, -4, 4, 8, 12, 20, 30],
         game_length: [5, 10],
         amb_cond: [1, 2, 2, 3]
     }
     // includes all combinations of factors, returned in random order
-    let full_design = jsPsych.randomization.factorial(factors, 1);
-    let main_bandit = jsPsych.randomization.repeat([0, 1], full_design.length / 2);
+    g.full_design = jsPsych.randomization.factorial(g.factors, 1);
+    g.main_bandit = jsPsych.randomization.repeat([0, 1], g.full_design.length / 2);
 
-    for(let i=0; i<main_bandit.length; i++){
-        full_design[i].main_bandit = main_bandit[i];
+    for(let i=0; i<g.main_bandit.length; i++){
+        g.full_design[i].main_bandit = g.main_bandit[i];
 
         // generate 'forced'
-        let forced = new Array(full_design[i].game_length).fill(0);
-        switch (full_design[i].amb_cond) {
+        g.forced = new Array(g.full_design[i].game_length).fill(0);
+        switch (g.full_design[i].amb_cond) {
             case 1:
-                forced_head = jsPsych.randomization.shuffle([1, 2, 2, 2])
+                g.forced_head = jsPsych.randomization.shuffle([1, 2, 2, 2])
                 break;
             case 2:
-                forced_head = jsPsych.randomization.shuffle([1, 1, 2, 2])
+                g.forced_head = jsPsych.randomization.shuffle([1, 1, 2, 2])
                 break;
             case 3:
-                forced_head = jsPsych.randomization.shuffle([1, 1, 1, 2])
+                g.forced_head = jsPsych.randomization.shuffle([1, 1, 1, 2])
         }
-        for(let j=0; j<4; j++) forced[j] = forced_head[j];
-        full_design[i].forced = forced;
+        for(let j=0; j<4; j++) g.forced[j] = g.forced_head[j];
+        g.full_design[i].forced = g.forced;
 
         // generate 'rewards'
-        let sig_risk = 8;
-        let mu = [0, 0];
-        mu[main_bandit[i]] = full_design[i].mu;
-        mu[1 - main_bandit[i]] = full_design[i].mu + full_design[i].delta_mu;
+        g.sig_risk = 8;
+        g.mu = [0, 0];
+        g.mu[g.main_bandit[i]] = g.full_design[i].mu;
+        g.mu[1 - g.main_bandit[i]] = g.full_design[i].mu + g.full_design[i].delta_mu;
 
         // initialize rewards array
-        let rewards = [
-            new Array(full_design[i].game_length),
-            new Array(full_design[i].game_length)
+        g.rewards = [
+            new Array(g.full_design[i].game_length),
+            new Array(g.full_design[i].game_length)
         ];
 
         // fill rewards array
-        for(let j=0; j<full_design[i].game_length; j++){
+        for(let j=0; j<g.full_design[i].game_length; j++){
             for(let k=0; k<2; k++){
-                rewards[k][j] = Math.max(1, Math.min(99, Math.round(randomNormal() * sig_risk + mu[k])));
+                g.rewards[k][j] = Math.max(1, Math.min(99, Math.round(g.randomNormal() * g.sig_risk + g.mu[k])));
             }
         }
-        full_design[i].rewards = rewards;
+        g.full_design[i].rewards = g.rewards;
     }
 
-        let timeline = [];
+        g.timeline = [];
 
             /*** Variables for instructions slides ***
     The stack size is determined by the length of 'forced'.
@@ -118,7 +120,7 @@ jsPsych.data.addProperties({order: order_id});
     display contains the values to be displayed in the left and right bandits.
     msg is the text displayed at the top of the screen.  HTML tags can be included (e.g., <br> for a line break).
     */
-    let instructions = [
+    g.instructions = [
         { forced: [1, 2, 1, 1, 0, 0, 0, 0, 0, 0],  display: [[], []], inst_mode: 'blank',  msg: '<p style="font-size: 30px;">Welcome! You will get to play the stacked boxes game.</p>' },
         { forced: [1, 2, 1, 1, 0, 0, 0, 0, 0, 0],  display: [[], []], inst_mode: 'blank',  msg: '<p style="font-size: 30px;">Please make sure you understand each slide before going on to the next one!</p>' },
         { forced: [1, 2, 1, 1, 0, 0, 0, 0, 0, 0],  display: [[], []], inst_mode: 'bandits',  msg: '<p style="font-size: 30px;">In this game, you will get to choose between two stacks of boxes.</p>' },
@@ -145,7 +147,7 @@ jsPsych.data.addProperties({order: order_id});
         //{ forced: [1, 2, 1, 1, 0, 0, 0, 0, 0, 0],  display: [[], []], inst_mode: 'blank',  msg: '<p style="font-size: 30px;">Press any key when you are ready for the questions!</p>' }
     ]
 
-    let horizon_inst = {
+    g.horizon_inst = {
         type: 'horizon',
         forced: jsPsych.timelineVariable('forced'),
         rewards: [[9, 13, 74, 56, 87, 54, 77, 86, 76, 35], [43, 55, 37, 36, 77, 65, 33, 34, 62, 93]],
@@ -158,23 +160,23 @@ jsPsych.data.addProperties({order: order_id});
         inst_mode: jsPsych.timelineVariable('inst_mode')
     }
 
-    let instruction_trials = {
-        timeline: [horizon_inst],
-        timeline_variables: instructions
+    g.instruction_trials = {
+        timeline: [g.horizon_inst],
+        timeline_variables: g.instructions
     }
 
 // EDIT - Repeat question upto two times if answered incorrectly
     // comprehension questions
-    var inst_left_key = {
+    g.inst_left_key = {
     type: 'image-keyboard-response',
-    stimulus: repo_site +'img/inst_key1.jpg',
+    stimulus: g.repo_site +'img/inst_key1.jpg',
     choices: jsPsych.ALL_KEYS,
     response_ends_trial: true
     };
 
-    var inst_right_key = {
+    g.inst_right_key = {
     type: 'image-keyboard-response',
-    stimulus: repo_site +'img/inst_key2.jpg',
+    stimulus: g.repo_site +'img/inst_key2.jpg',
     choices: jsPsych.ALL_KEYS,
     response_ends_trial: true
     };
@@ -206,9 +208,9 @@ jsPsych.data.addProperties({order: order_id});
     //         }
 
 
-var question1 = {
+g.question1 = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/inst_q1.png',
+    stimulus: g.repo_site + 'img/inst_q1.png',
     choices: [37, 39],
     on_finish: function (data) {
         let correct_keypress = data.key_press == [39];
@@ -217,7 +219,7 @@ var question1 = {
     data: {test_part: 'practice-question'},
     show_clickable_nav: true
 }
-var question1_feedback = {
+g.question1_feedback = {
     type: "image-keyboard-response",
     stimulus: function () {
         let d = jsPsych.data.get().last(1).values()[0];
@@ -226,7 +228,7 @@ var question1_feedback = {
         if (!correct) {
             stimulus = '';
         } else {
-            stimulus = repo_site + 'img/right_answer.gif';
+            stimulus = g.repo_site + 'img/right_answer.gif';
         }
         return stimulus
     },
@@ -245,8 +247,8 @@ var question1_feedback = {
     data: {test_part: 'practice-feedback'}
 };
 
-var if_node_1 = {
-    timeline: [question1, question1_feedback],
+g.if_node_1 = {
+    timeline: [g.question1, g.question1_feedback],
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
@@ -259,9 +261,9 @@ var if_node_1 = {
     }
 }
 
-var question2 = {
+g.question2 = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/inst_q2.png',
+    stimulus: g.repo_site + 'img/inst_q2.png',
     choices: ['a', 'b', 'c'],
     on_finish: function (data) {
         let correct_keypress = data.key_press == [67];
@@ -270,7 +272,7 @@ var question2 = {
     data: {test_part: 'practice-question'}
 };
 
-var question2_feedback = {
+g.question2_feedback = {
     type: "image-keyboard-response",
     stimulus: function () {
         let d = jsPsych.data.get().last(1).values()[0];
@@ -279,7 +281,7 @@ var question2_feedback = {
         if (!correct) {
             stimulus = '';
         } else {
-            stimulus = repo_site + 'img/right_answer.gif';
+            stimulus = g.repo_site + 'img/right_answer.gif';
         }
         return stimulus
     },
@@ -297,8 +299,8 @@ var question2_feedback = {
     data: {test_part: 'practice-feedback'}
 };
 
-var if_node_2 = {
-    timeline: [question2, question2_feedback],
+g.if_node_2 = {
+    timeline: [g.question2, g.question2_feedback],
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
@@ -311,9 +313,9 @@ var if_node_2 = {
     }
 }
 
-var question3 = {
+g.question3 = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/inst_q3.png',
+    stimulus: g.repo_site + 'img/inst_q3.png',
     choices: ['a', 'b'],
     on_finish: function (data) {
         let correct_keypress = data.key_press == [65];
@@ -322,7 +324,7 @@ var question3 = {
     data: {test_part: 'practice-question'}
 };
 
-var question3_feedback = {
+g.question3_feedback = {
     type: "image-keyboard-response",
     stimulus: function () {
         let d = jsPsych.data.get().last(1).values()[0];
@@ -331,7 +333,7 @@ var question3_feedback = {
         if (!correct) {
             stimulus = '';
         } else {
-            stimulus = repo_site + 'img/right_answer.gif';
+            stimulus = g.repo_site + 'img/right_answer.gif';
         }
         return stimulus
     },
@@ -349,8 +351,8 @@ var question3_feedback = {
     data: {test_part: 'practice-feedback'}
 };
 
-var if_node_3 = {
-    timeline: [question3, question3_feedback],
+g.if_node_3 = {
+    timeline: [g.question3, g.question3_feedback],
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
@@ -363,9 +365,9 @@ var if_node_3 = {
     }
 }
 
-var question4 = {
+g.question4 = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/inst_q4.png',
+    stimulus: g.repo_site + 'img/inst_q4.png',
     choices: [37, 39],
     on_finish: function (data) {
         let correct_keypress = data.key_press == [39];
@@ -374,7 +376,7 @@ var question4 = {
     data: {test_part: 'practice-question'}
 };
 
-var question4_feedback = {
+g.question4_feedback = {
     type: "image-keyboard-response",
     stimulus: function () {
         let d = jsPsych.data.get().last(1).values()[0];
@@ -383,7 +385,7 @@ var question4_feedback = {
         if (!correct) {
             stimulus = '';
         } else {
-            stimulus = repo_site + 'img/right_answer.gif';
+            stimulus = g.repo_site + 'img/right_answer.gif';
         }
         return stimulus
     },
@@ -401,8 +403,8 @@ var question4_feedback = {
     data: {test_part: 'practice-feedback'}
 };
 
-var if_node_4 = {
-    timeline: [question4, question4_feedback],
+g.if_node_4 = {
+    timeline: [g.question4, g.question4_feedback],
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
@@ -415,9 +417,9 @@ var if_node_4 = {
     }
 }
 
-var question5 = {
+g.question5 = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/inst_q5.png',
+    stimulus: g.repo_site + 'img/inst_q5.png',
     choices: [37, 39],
     on_finish: function (data) {
         let correct_keypress = data.key_press == [39];
@@ -426,7 +428,7 @@ var question5 = {
     data: {test_part: 'practice-question'}
 };
 
-var question5_feedback = {
+g.question5_feedback = {
     type: "image-keyboard-response",
     stimulus: function () {
         let d = jsPsych.data.get().last(1).values()[0];
@@ -435,7 +437,7 @@ var question5_feedback = {
         if (!correct) {
             stimulus = '';
         } else {
-            stimulus = repo_site + 'img/right_answer.gif';
+            stimulus = g.repo_site + 'img/right_answer.gif';
         }
         return stimulus
     },
@@ -453,8 +455,8 @@ var question5_feedback = {
     data: {test_part: 'practice-feedback'}
 };
 
-var if_node_5 = {
-    timeline: [question5, question5_feedback],
+g.if_node_5 = {
+    timeline: [g.question5, g.question5_feedback],
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
@@ -467,9 +469,9 @@ var if_node_5 = {
     }
 }
 
-var question6 = {
+g.question6 = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/inst_q6.png',
+    stimulus: g.repo_site + 'img/inst_q6.png',
     choices: [37, 39],
     on_finish: function (data) {
         let correct_keypress = data.key_press == [37];
@@ -478,7 +480,7 @@ var question6 = {
     data: {test_part: 'practice-question'}
 };
 
-var question6_feedback = {
+g.question6_feedback = {
     type: "image-keyboard-response",
     stimulus: function () {
         let d = jsPsych.data.get().last(1).values()[0];
@@ -487,7 +489,7 @@ var question6_feedback = {
         if (!correct) {
             stimulus = '';
         } else {
-            stimulus = repo_site + 'img/right_answer.gif';
+            stimulus = g.repo_site + 'img/right_answer.gif';
         }
         return stimulus
     },
@@ -505,8 +507,8 @@ var question6_feedback = {
     data: {test_part: 'practice-feedback'}
 };
 
-var if_node_6 = {
-    timeline: [question6, question6_feedback],
+g.if_node_6 = {
+    timeline: [g.question6, g.question6_feedback],
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
@@ -520,14 +522,14 @@ var if_node_6 = {
 }
 
     // conditional timeline to replay the instructions and re-do the practice questions
-    var choose_to_replay_instructions = {
+    g.choose_to_replay_instructions = {
     type: 'html-keyboard-response',
     stimulus: "<p style = 'font-size: 30px'>If any of this is not clear, press <strong>any key</strong> to watch the  slides again.</p>" +
     "<p style = 'font-size: 30px'>Or, you can press <strong>'Enter/Return'</strong> to move on.</p>"
     };
 
-    var if_node = {
-    timeline: [instruction_trials, inst_left_key, inst_right_key, question1, question1_feedback, question2, question2_feedback, question3, question3_feedback, question4, question4_feedback, question5, question5_feedback, question6, question6_feedback],
+    g.if_node = {
+    timeline: [g.instruction_trials, g.inst_left_key, g.inst_right_key, g.question1, g.question1_feedback, g.question2, g.question2_feedback, g.question3, g.question3_feedback, g.question4, g.question4_feedback, g.question5, g.question5_feedback, g.question6, g.question6_feedback],
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -540,40 +542,40 @@ var if_node_6 = {
     }
     }
 
-    let end_of_practice = {
+    g.end_of_practice = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/good_job.gif',
+    stimulus: g.repo_site + 'img/good_job.gif',
     choices: jsPsych.ALL_KEYS,
     prompt: "<p style = 'font-size: 30px'>This is the end of the instructions.</p>" +
             "<p style = 'font-size: 30px'>Press any key to start the game!</p>",
     response_ends_trial: true
     };
 
-    var trophy = {
+    g.trophy = {
     type: 'image-keyboard-response',
-    stimulus: repo_site + 'img/trophy2.jpeg',
+    stimulus: g.repo_site + 'img/trophy2.jpeg',
     prompt: "<p style = 'font-size: 25px'>Great job! You've got a trophy!</p>" +
     "<p style = 'font-size: 25px'>Press any key to continue to the next part.</p>"
     }
 /*
-        timeline.push(welcome);
-        timeline.push(instruction_trials);
-        timeline.push(
-            inst_left_key, inst_right_key,
-            question1, question1_feedback, if_node_1,
-            question2, question2_feedback, if_node_2,
-            question3, question3_feedback, if_node_3,
-            question4, question4_feedback, if_node_4,
-            question5,question5_feedback, if_node_5,
-            question6,question6_feedback, if_node_6);
-        timeline.push(choose_to_replay_instructions, if_node);
-        timeline.push(end_of_practice);
+        g.timeline.push(g.welcome);
+        g.timeline.push(g.instruction_trials);
+        g.timeline.push(
+            g.inst_left_key, g.inst_right_key,
+            g.question1, g.question1_feedback, g.if_node_1,
+            g.question2, g.question2_feedback, g.if_node_2,
+            g.question3, g.question3_feedback, g.if_node_3,
+            g.question4, g.question4_feedback, g.if_node_4,
+            g.question5, g.question5_feedback, g.if_node_5,
+            g.question6, g.question6_feedback, g.if_node_6);
+        g.timeline.push(g.choose_to_replay_instructions, g.if_node);
+        g.timeline.push(g.end_of_practice);
         */
 
     //the real game
-    var score_feedback = {
+    g.score_feedback = {
         type: "image-keyboard-response",
-        stimulus: repo_site + 'img/you_are_a_star.gif',
+        stimulus: g.repo_site + 'img/you_are_a_star.gif',
         choices: jsPsych.ALL_KEYS,
         prompt: function() {
 
@@ -585,7 +587,7 @@ var if_node_6 = {
         }
     };
 
-    let trial = {
+    g.trial = {
         type: 'horizon',
         choices: [37, 39],  // left, right arrows
         forced: jsPsych.timelineVariable('forced'),
@@ -595,22 +597,22 @@ var if_node_6 = {
     // Create blocks of 20 trials
     //// full_design = full_design.slice(0,20); //keep only the first block for test
 /*
-    for(let j=0; j<full_design.length; j+=20){
-        timeline.push({
+    for(let j=0; j<g.full_design.length; j+=20){
+        g.timeline.push({
             type: "html-keyboard-response",
             stimulus: function() {
-                return "<p>Beginning part " + (j/20+1) + " of " + full_design.length / 20 + ".</p>" +
+                return "<p>Beginning part " + (j/20+1) + " of " + g.full_design.length / 20 + ".</p>" +
                     "<p>Press any key to begin.</p>"
             }
         });
 
-        timeline.push({
-            timeline: [trial],
-            timeline_variables: full_design.slice(j, j+20)
+        g.timeline.push({
+            timeline: [g.trial],
+            timeline_variables: g.full_design.slice(j, j+20)
         });
 
-        timeline.push(score_feedback);    // feedback slide
+        g.timeline.push(g.score_feedback);    // feedback slide
     };
 */
-    timeline.push(trophy);            // trophy slide
+    g.timeline.push(g.trophy);            // trophy slide
 
