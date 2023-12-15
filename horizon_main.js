@@ -557,7 +557,7 @@ g.if_node_6 = {
     prompt: "<p style = 'font-size: 25px'>Great job! You've got a trophy!</p>" +
     "<p style = 'font-size: 25px'>Press any key to continue to the next part.</p>"
     }
-/*
+
         g.timeline.push(g.welcome);
         g.timeline.push(g.instruction_trials);
         g.timeline.push(
@@ -570,7 +570,6 @@ g.if_node_6 = {
             g.question6, g.question6_feedback, g.if_node_6);
         g.timeline.push(g.choose_to_replay_instructions, g.if_node);
         g.timeline.push(g.end_of_practice);
-        */
 
     //the real game
     g.score_feedback = {
