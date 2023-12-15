@@ -596,7 +596,6 @@ g.if_node_6 = {
 
     // Create blocks of 20 trials
     //// full_design = full_design.slice(0,20); //keep only the first block for test
-/*
     for(let j=0; j<g.full_design.length; j+=20){
         g.timeline.push({
             type: "html-keyboard-response",
@@ -613,6 +612,5 @@ g.if_node_6 = {
 
         g.timeline.push(g.score_feedback);    // feedback slide
     };
-*/
     g.timeline.push(g.trophy);            // trophy slide
 
