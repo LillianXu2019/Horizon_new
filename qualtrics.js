@@ -18,7 +18,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
         "https://d3js.org/d3.v6.min.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/jspsych.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-fullscreen.js",
-        jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-instructions.js",
+		jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-instructions.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js",
         jslib_url + "lib/vendors/jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js",
         jslib_url + "jspsych-horizon.js",
@@ -47,11 +47,11 @@ Qualtrics.SurveyEngine.addOnload(function () {
 
     var task_name = "horizon";
     var save_url = "https://experiment.childemotion.waisman.wisc.edu/save_data.php";
-    // var subject_id = "${e://Field/participantID}";
-    var child_id = "${e://Field/child}";
-    var response_id = "${e://Field/response}";
+    var subject_id = "${e://Field/participantID}";
+	//var child_id = "${e://Field/child}";
+    //var response_id = "${e://Field/response}";
     var data_dir = task_name;
-    var file_name = task_name + '_' + child_id;
+    var file_name = task_name + '_' + subject_id;
 
     function save_data_json() {
         jQuery.ajax({
@@ -87,6 +87,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
             display_element: 'display_stage',
 
             on_finish: function (data) {
+
                 var today = new Date();
                 var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -113,5 +114,5 @@ Qualtrics.SurveyEngine.addOnReady(function () {
 
 Qualtrics.SurveyEngine.addOnUnload(function () {
     /*Place your JavaScript here to run when the page is unloaded*/
-    g = undefined;
+	g = undefined;
 });
