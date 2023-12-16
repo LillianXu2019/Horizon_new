@@ -65,8 +65,16 @@ jsPsych.data.addProperties({order: g.order_id});
         game_length: [5, 10],
         amb_cond: [1, 2, 2, 3]
     }
-    // includes all combinations of factors, returned in random order
-    g.full_design = jsPsych.randomization.factorial(g.factors, 1);
+    // includes all combinations of factors, returned 80 trials from a randomly shuffled list 
+    //// 1. Generate all possible combinations
+    g.full_design_all = jsPsych.randomization.factorial(g.factors, 1);
+
+    //// 2. Randomly shuffle the order of the combinations
+    g.full_design_shuffled = jsPsych.randomization.shuffle(g.full_design_all);
+
+    //// 3. Take the first 80 trials from the shuffled list; Now g.full_design has 80 randomly selected trials
+    g.full_design = g.full_design_shuffled.slice(0, 80);
+
     g.main_bandit = jsPsych.randomization.repeat([0, 1], g.full_design.length / 2);
 
     for(let i=0; i<g.main_bandit.length; i++){
