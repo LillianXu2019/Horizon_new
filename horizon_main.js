@@ -578,7 +578,7 @@ g.if_node_6 = {
         choices: jsPsych.ALL_KEYS,
         prompt: function() {
 
-            var trials = jsPsych.data.get().last(20);  // last 20 trials == last block
+            var trials = jsPsych.data.get().last(10);  // last 10 trials == last block
             var avg_score = Math.round(trials.select('sum_scores').mean());
 
             return "<p>Great Job!  You averaged "+avg_score+" points!</p>"+
@@ -593,23 +593,22 @@ g.if_node_6 = {
         rewards: jsPsych.timelineVariable('rewards')
     };
 
-    // Create blocks of 20 trials
-    //// full_design = full_design.slice(0,20); //keep only the first block for test
-    for(let j=0; j<g.full_design.length; j+=20){
+    // Create blocks of 10 trials
+    //// full_design = full_design.slice(0,10); //keep only the first block for test
+    for(let j=0; j<g.full_design.length; j+=10){
         g.timeline.push({
             type: "html-keyboard-response",
             stimulus: function() {
-                return "<p>Beginning part " + (j/20+1) + " of " + g.full_design.length / 20 + ".</p>" +
+                return "<p>Beginning part " + (j/10+1) + " of " + g.full_design.length / 10 + ".</p>" +
                     "<p>Press any key to begin.</p>"
             }
         });
 
         g.timeline.push({
             timeline: [g.trial],
-            timeline_variables: g.full_design.slice(j, j+20)
+            timeline_variables: g.full_design.slice(j, j+10)
         });
 
         g.timeline.push(g.score_feedback);    // feedback slide
     };
     g.timeline.push(g.trophy);            // trophy slide
-
